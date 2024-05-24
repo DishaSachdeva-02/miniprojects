@@ -1,0 +1,33 @@
+<div style="min-height: 120px; margin-top: 20px; margin-bottom: 20px;">
+   
+        <div *ngIf="applicationdata" style="margin-left:20px;" class="row row-cols-1 row-cols-md-3 g-4">
+
+            <div *ngFor="let l of applicationdata"  >
+                
+                <div class="card border-success mb-3" style="max-width: 18rem;">
+                    <div class="card-header bg-transparent border-success">Application data</div>
+                    <div class="card-body">
+                        
+                        <h5 class="card-title">Name : {{l.appName}}</h5>
+                        <p class="card-text">Genre : {{l.genre}}</p>
+                        <p class="card-text">Download Count :{{l.downloadCount}}</p>
+                        <p class="card-text">Average Rating : <ngb-rating [(rate)]="l.averageRating" [disabled]="true">
+                            <ng-template let-fill="fill">
+                              <span class="defaultHeart" [class.filled]="fill === 100">
+                                <span class="paintedHeart" [style.width.%]="fill">♥</span>♥
+                              </span>
+                            </ng-template>
+                          </ngb-rating></p>
+                    </div>
+                    <div class="card-footer bg-transparent border-success">
+                        <button class="btn btn-danger rounded-pill px-3" type="button" style="margin-right: 5px;" (click)="delete(l)">Delete</button>
+                        <button class="btn btn-info rounded-pill px-3" style="margin-right: 2px; background-color: yellow;" routerLink="/updateform/{{l._id}}" >Edit</button>
+                        <button class="btn btn-info rounded-pill px-3" routerLink="/details/{{l._id}}" >Details</button> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+       
+         
+</div>

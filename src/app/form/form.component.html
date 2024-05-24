@@ -1,0 +1,95 @@
+
+<div style="min-height: 120px; margin: 5px; margin-top: 20px; margin-bottom: 20px;">
+    <div class="collapse collapse-horizontal" id="collapseWidthExample">
+      
+        <div class="card text-center card-body" style="width:800px; height: 500px;">
+            <div class="card-header">
+              Create Application
+            </div>
+            <div class="card-body" >
+                <form [formGroup]="applicationform" (ngSubmit)="submit()">
+                  
+                  
+                    <div class="row mb-3 form-group">
+                      <label for="appname" class="col-sm-2 col-form-label" >App Name</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="appname" formControlName="appName" [class.is-invalid]="appName?.invalid && appName?.touched">
+                        <div *ngIf="appName?.invalid && appName?.touched">
+                          <span class="text-danger" *ngIf="appName?.errors?.['required']">Please enter the App Name </span>
+                          <span class="text-danger" *ngIf="appName?.errors?.['minlength']">Appname should be of atleast 3 characters</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row mb-3 form-group">
+                      <label for="Description" class="col-sm-2 col-form-label">Description</label>
+                      <div class="col-sm-10">
+                        <textarea class="form-control" id="Description" formControlName="description" [class.is-invalid]="description?.invalid && description?.touched"></textarea>
+                        <div *ngIf="description?.invalid && description?.touched">
+                          <span class="text-danger" *ngIf="description?.errors?.['required']">Enter some description about app </span>
+                          <span class="text-danger" *ngIf="description?.errors?.['minlength']">Description should be of atleast 5 characters </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row mb-3 form-group">
+                      <label for="release" class="col-sm-2 col-form-label">Release Date</label>
+                      <div class="col-sm-10">
+                        <input type="date" class="form-control" id="release" formControlName="releaseDate" [class.is-invalid]="releaseDate?.invalid && releaseDate?.touched">
+                        <div *ngIf="releaseDate?.invalid && releaseDate?.touched">
+                          <span class="text-danger">Enter the date</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row mb-3 form-group">
+                      <label for="version" class="col-sm-2 col-form-label">Version</label>
+                      <div class="col-sm-10">
+                        <input type="number" class="form-control" id="release" formControlName="version" [class.is-invalid]="version?.invalid && version?.touched">
+                        <div *ngIf="version?.invalid && version?.touched">
+                          <span class="text-danger">Please enter the version</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class=" row mb-3 form-group">
+                      <label for="genre" class="col-sm-2 col-form-label">Genre</label>
+                      <div class="col-sm-10">
+                          <select class="form-select" aria-label="Default select example" [class.is-invalid]="genre?.invalid && genre?.touched" formControlName="genre">
+                            <option selected disabled>Select Your favourite Genre</option>
+                            <option value="Health">Health</option>
+                            <option value="Women Interest">Women Interest</option>
+                            <option value="Games" >Games</option>
+                          </select>
+                          <div *ngIf="genre?.invalid && genre?.touched">
+                            <span class="text-danger">Don't miss to select your favourite genre</span>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="row mb-3 form-group">
+                        <label for="flexSwitchCheckDefault" class="col-sm-2 col-form-label">Visibilty</label>
+                        <div class="col-sm-10 form-check form-switch" style="margin-top: 7px;">
+                        
+                            <input class="form-check-input" type="checkbox" (change)="isTrue()" id="flexSwitchCheckDefault">
+                            
+                        </div>
+                    </div>
+                    <button type="submit" (click)="openVerticallyCentered(content)"   class="btn btn-primary" ngbTooltip="Clicking on this will create your application" tooltipClass="my-custom-class" [disabled]="applicationform.invalid" >Create</button>
+                  </form>
+                  <ng-template #content let-modal>
+                    <div class="modal-header">
+                      <h4 class="modal-title">Application Created Successfully</h4>
+                      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+                    </div>
+                    <div class="modal-body">
+                      <p>Your Application is created Successfully...</p>
+                     
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+                    </div>
+                  </ng-template>
+
+                    
+                 
+            </div>
+          </div>
+      
+    </div>
+  </div>
