@@ -17,7 +17,6 @@ export const routes: Routes = [
     {path:"",redirectTo:"/signin",pathMatch:'full'},
     {path:"updateform/:id" , component:EditformComponent},
     {path:"form",component:FormComponent},
-    {path:"updateform" , component:EditformComponent},
     {path:"home",component:HomeComponent},
     {path:"details/:id",component:AppdetailsComponent},
     {path:"dashboard" , component:DashboardComponent},

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { Router, RouterModule, RouterOutlet } from '@angular/router';
 
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -12,4 +12,9 @@ import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 })
 export class UsersidebarComponent {
   active = 'top'
+  constructor(private router:Router){}
+  logout(){
+    localStorage.removeItem('authorization');
+    this.router.navigate(['/login']);
+  }
 }

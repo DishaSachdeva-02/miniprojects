@@ -23,7 +23,10 @@ export class HomeComponent {
   console.log(this.applicationdata);
  }
   getapplication(){
-   this.dataservice.getapplication().subscribe((app)=>this.applicationdata=app);
+   this.dataservice.getapplication().subscribe((app)=>{
+    this.applicationdata=app
+    console.log(this.applicationdata);
+  });
   
   }
    delete(a:App){

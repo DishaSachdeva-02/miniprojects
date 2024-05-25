@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable , of } from 'rxjs';
 import { catchError } from 'rxjs';
 import { App } from './App';
+import { comment } from './Comment';
 @Injectable({
   providedIn: 'root'
 })
@@ -13,6 +14,7 @@ export class DataService {
   httpOptions={headers:new HttpHeaders({'Content-Type': 'application/json',
   authorization: `${localStorage.getItem('authorization')}`})}
   private url='http://localhost:3000/applications'
+  private url1='http://localhost:3000/applications/comment'
 
 
   getapplication():Observable<App[]>{
@@ -41,12 +43,32 @@ export class DataService {
     );
   
 }
+
 updateapp(app:App):Observable<any>{
   return this.http.put(`${this.url}/${app._id}`,app,this.httpOptions).pipe(
    
     catchError(this.handleError<any>('updateapp'))
   );
 }
+
+//commnets
+
+addcomment(comm:comment,id:string):Observable<comment>{
+  
+  return this.http.post<comment>(`${this.url1}/${id}`,comm,this.httpOptions).pipe(
+    
+    catchError(this.handleError<comment>('addcomment'))
+  );
+
+}
+
+deletecomment(id:string):Observable<comment>{
+  return this.http.delete<comment>(`${this.url1}/delete/${id}`, this.httpOptions).pipe(
+   
+    catchError(this.handleError<comment>('deletecomment'))
+  )
+}
+
   private handleError<T>(operation='operation', result?:T){
     return (error:any):Observable<T>=>{
 

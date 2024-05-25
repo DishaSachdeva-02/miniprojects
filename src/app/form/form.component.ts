@@ -6,6 +6,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DataService } from '../data.service';
 import { App } from '../App';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -50,7 +51,7 @@ export class FormComponent {
   get genre(){
     return this.applicationform.get('genre');
   }
-  constructor(private fb : FormBuilder,private dataservice:DataService,private location:Location){
+  constructor(private fb : FormBuilder,private dataservice:DataService,private location:Location,private router:Router){
   }
   status=false;
   applicationform!:FormGroup;
@@ -69,9 +70,6 @@ export class FormComponent {
       version:['',Validators.required],
       genre:['Health',Validators.required],
       visibility:[this.status,Validators.required],
-      downloadCount:['0'],
-      comments:[''],
-      averageRating:['0']
     })
   }
   private modalService = inject(NgbModal);
@@ -80,8 +78,8 @@ export class FormComponent {
 	}
   submit=()=>{
     console.log(this.applicationform.value);
-    this.dataservice.addapp(this.applicationform.value  as App).subscribe(()=>{
-      this.goback();
+    this.dataservice.addapp(this.applicationform.value  as App).subscribe((app)=>{
+      this.router.navigate(['/home'])
     })
     this.applicationform.reset();
   }
