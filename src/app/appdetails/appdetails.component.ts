@@ -10,16 +10,19 @@ import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { comment } from '../Comment';
+import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-appdetails',
   standalone: true,
-  imports: [NgbRatingModule,CommonModule,NgFor,NgbCarouselModule,FormsModule, CommonModule,ReactiveFormsModule],
+  imports: [NgbRatingModule,CommonModule,NgFor,NgbCarouselModule,FormsModule, CommonModule,ReactiveFormsModule,NgbAlertModule],
   templateUrl: './appdetails.component.html',
   styleUrl: './appdetails.component.css'
 })
 export class AppdetailsComponent {
-constructor(private dataservice:DataService,private activatedroute:ActivatedRoute,private fb : FormBuilder){}
+constructor(private dataservice:DataService,private activatedroute:ActivatedRoute,private fb : FormBuilder,private location:Location){}
 selectedapp!:App;
+printerror:string="";
 getapplicationdetail(){
 	const id=this.activatedroute.snapshot.paramMap.get('id');
   if(id){
@@ -50,8 +53,11 @@ ngOnInit(){
   }
   deletecomment(id:string){
    if(id){
-    this.dataservice.deletecomment(id).subscribe();
+    this.dataservice.deletecomment(id).subscribe({next:()=>{},error:(error)=>{this.printerror=error.error.message}});
     this.getapplicationdetail();
    }
+  }
+  goback(){
+   this.location.back();
   }
 }

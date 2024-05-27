@@ -1,33 +1,63 @@
 <div style="min-height: 120px; margin-top: 20px; margin-bottom: 20px;">
-   
-        <div *ngIf="applicationdata" style="margin-left:20px;" class="row row-cols-1 row-cols-md-3 g-4">
+  <div *ngIf="printerror">
+    <ngb-alert type="danger">{{printerror}}</ngb-alert>
+  </div>
+  <div *ngIf="applicationdata" style="margin-left:20px;" class="row row-cols-1 row-cols-md-3 g-4">
 
-            <div *ngFor="let l of applicationdata"  >
-                
-                <div class="card border-success mb-3" style="max-width: 18rem;">
-                    <div class="card-header bg-transparent border-success">Application data</div>
-                    <div class="card-body">
-                        
-                        <h5 class="card-title">Name : {{l.appName}}</h5>
-                        <p class="card-text">Genre : {{l.genre}}</p>
-                        <p class="card-text">Download Count :{{l.downloadCount}}</p>
-                        <p class="card-text">Average Rating : <ngb-rating [(rate)]="l.averageRating" [disabled]="true">
-                            <ng-template let-fill="fill">
-                              <span class="defaultHeart" [class.filled]="fill === 100">
-                                <span class="paintedHeart" [style.width.%]="fill">♥</span>♥
-                              </span>
-                            </ng-template>
-                          </ngb-rating></p>
-                    </div>
-                    <div class="card-footer bg-transparent border-success">
-                        <button class="btn btn-danger rounded-pill px-3" type="button" style="margin-right: 5px;" (click)="delete(l)">Delete</button>
-                        <button class="btn btn-info rounded-pill px-3" style="margin-right: 2px; background-color: yellow;" routerLink="/updateform/{{l._id}}" >Edit</button>
-                        <button class="btn btn-info rounded-pill px-3" routerLink="/details/{{l._id}}" >Details</button> 
-                    </div>
-                </div>
-            </div>
+    <div *ngFor="let l of applicationdata">
+
+      <div class="card border-success mb-3" style="max-width: 18rem;">
+
+        <div class="card-header bg-transparent border-success" style="display: flex; justify-content: space-around; align-items: center;">
+          <div>Application Data</div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-download"
+          viewBox="0 0 16 16" (click)="addtodownloads(l)" (click)="open(content)">
+          <path
+            d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+          <path
+            d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z" />
+        </svg>
         </div>
-        
-       
+
+   
+        <div class="card-body">
+
+          <h5 class="card-title">Name : {{l.appName}}</h5>
+          <p class="card-text">Genre : {{l.genre}}</p>
+          <p class="card-text">Download Count :{{l.downloadCount}}</p>
+          <p class="card-text">Average Rating : <ngb-rating [(rate)]="l.averageRating" [disabled]="true">
+              <ng-template let-fill="fill">
+                <span class="defaultHeart" [class.filled]="fill === 100">
+                  <span class="paintedHeart" [style.width.%]="fill">♥</span>♥
+                </span>
+              </ng-template>
+            </ngb-rating></p>
+        </div>
+        <div class="card-footer bg-transparent border-success">
+          <button class="btn btn-danger rounded-pill px-3" type="button" style="margin-right: 5px;"
+            (click)="delete(l)">Delete</button>
+          <button class="btn btn-info rounded-pill px-3" style="margin-right: 2px; background-color: yellow;"
+            (click)="edit(l)">Edit</button>
+          <button class="btn btn-info rounded-pill px-3" routerLink="/details/{{l._id}}">Details</button>
          
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  <button class="btn btn-primary" (click)="goback()">Back</button>
+
+
 </div>
+<ng-template #content let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Application Downloaded</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<div>Your Application Is Downloaded Successfully</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+	</div>
+</ng-template>

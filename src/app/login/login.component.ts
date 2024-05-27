@@ -5,11 +5,11 @@ import { FormBuilder } from '@angular/forms';
 import { RegisterService } from '../register.service';
 import { User } from '../User';
 import { Router, RouterModule } from '@angular/router';
-
+import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, CommonModule,ReactiveFormsModule,NgIf,RouterModule],
+  imports: [FormsModule, CommonModule,ReactiveFormsModule,NgIf,RouterModule,NgbAlertModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -36,18 +36,22 @@ export class LoginComponent {
   submit(){
     console.log(this.login.value);
     const {email,password,role}=this.login.value;
-    this.registerservice.login(this.login.value as User).subscribe((m)=>{
+    this.registerservice.login(this.login.value as User).subscribe({next:(m)=>{
       console.log(m);
-      localStorage.setItem('authorization',m);
+      if(m){
+        localStorage.setItem('authorization',m);
       if(role=="user"){
         this.router.navigate(['/usersidebar'])
       }
       else{
         this.router.navigate(['/adminsidebar'])
       }
-    },(error)=>{
-      this.printdata=error;
-        })
+      }
+     
+    },error:(error)=>{
+         this.printdata=error.error.message;
+      }
+    })
     this.login.reset();
   }
 }

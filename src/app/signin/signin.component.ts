@@ -5,10 +5,11 @@ import { FormBuilder } from '@angular/forms';
 import { RegisterService } from '../register.service';
 import { User } from '../User';
 import { Router, RouterModule } from '@angular/router';
+import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-signin',
   standalone: true,
-  imports: [FormsModule, CommonModule,ReactiveFormsModule,NgIf,RouterModule],
+  imports: [FormsModule, CommonModule,ReactiveFormsModule,NgIf,RouterModule,NgbAlertModule],
   templateUrl: './signin.component.html',
   styleUrl: './signin.component.css'
 })
@@ -35,13 +36,21 @@ export class SigninComponent {
   submit(){
     console.log(this.signin.value);
    
-    this.registerservice.register(this.signin.value as User).subscribe((m)=>{
-      console.log(m);
-      this.router.navigate(['/login']);
-    },(error)=>{
-      this.printdata=error;
+    this.registerservice.register(this.signin.value as User).subscribe({
+      next: (m) => {
+        console.log(m);
+        if(m){
+          this.router.navigate(['/login']);
+        }
+       
+       
+      },
+      error: (error) => {
+        console.error(error.error.message);
+        this.printdata = error.error.message;
+        
       }
-    )
+    })
     this.signin.reset();
   }
 }

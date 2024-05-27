@@ -27,6 +27,9 @@
         </ng-template>
         
       </ngb-carousel>
+      <div *ngIf="printerror">
+        <ngb-alert type="danger" >{{printerror}}</ngb-alert>
+     </div>
       <br>
       <div>
         <p>Add more Comments..</p>
@@ -53,6 +56,7 @@
       </div>
 
     </div>
+    <button class="btn btn-primary" (click)="goback()">Back</button>
 </div>
 </div>
 

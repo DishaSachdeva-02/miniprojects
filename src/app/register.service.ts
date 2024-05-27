@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import { throwError } from 'rxjs'
 
 import { Observable , of } from 'rxjs';
 import { catchError } from 'rxjs';
@@ -31,11 +31,10 @@ login(user:User):Observable<any>{
   );
 
 }
-  private handleError<T>(operation='operation', result?:T){
-    return (error:any):Observable<T>=>{
-
-     console.log(error);
-      return of(result as T)
-    }
- }
+private handleError<T>(operation = 'operation'): (error: any) => Observable<T> {
+  return (error: any): Observable<T> => {
+      console.log(error);
+      return throwError(()=>error)
+  };
+}
 }

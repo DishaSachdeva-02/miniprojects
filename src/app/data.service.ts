@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
+import { throwError } from 'rxjs';
 import { Observable , of } from 'rxjs';
 import { catchError } from 'rxjs';
 import { App } from './App';
@@ -15,12 +15,15 @@ export class DataService {
   authorization: `${localStorage.getItem('authorization')}`})}
   private url='http://localhost:3000/applications'
   private url1='http://localhost:3000/applications/comment'
+  private url2='http://localhost:3000/downloads'
 
+
+  //application
 
   getapplication():Observable<App[]>{
     return this.http.get<App[]>(this.url,this.httpOptions).pipe(
   
-     catchError(this.handleError<App[]>('getapplication',[]))
+     catchError(this.handleError<App[]>('getapplication'))
     );
   }
   getapplicationbyid(id:string):Observable<App>{
@@ -69,11 +72,36 @@ deletecomment(id:string):Observable<comment>{
   )
 }
 
-  private handleError<T>(operation='operation', result?:T){
-    return (error:any):Observable<T>=>{
 
-     console.log(error);
-      return of(result as T)
-    }
- }
+
+//downloads
+addtodownload(id:string):Observable<App>{
+  
+  return this.http.post<App>(`${this.url2}/${id}`,'',this.httpOptions).pipe(
+    
+    catchError(this.handleError<App>('addtodownload'))
+  );
+
+}
+getdownload():Observable<string[]>{
+  return this.http.get<string[]>(this.url2,this.httpOptions).pipe(
+
+   catchError(this.handleError<string[]>('getdownload'))
+  );
+}
+deletedownload(id:string):Observable<string[]>{
+  return this.http.delete<string[]>(`${this.url2}/${id}`, this.httpOptions).pipe(
+   
+    catchError(this.handleError<string[]>('deletedownload'))
+  )
+}
+
+ // error handling
+
+ private handleError<T>(operation = 'operation'): (error: any) => Observable<T> {
+  return (error: any): Observable<T> => {
+      console.log(error);
+      return throwError(()=>error)
+  };
+}
 }
